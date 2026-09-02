@@ -4,9 +4,8 @@ import boomcow.minezero.checkpoint.CheckpointData;
 import boomcow.minezero.extension.CuriosHelper;
 import boomcow.minezero.extension.PersistentDataHelper;
 import boomcow.minezero.extension.SBPBackpackHelper;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.neoforged.fml.ModList;
+import net.minecraftforge.fml.ModList;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -44,7 +43,7 @@ public abstract class CheckpointDataMixin {
      * 在不影响原逻辑的前提下追加额外数据。
      */
     @Inject(method = "save", at = @At("RETURN"), remap = false)
-    private void minezeroSbp$onSaveReturn(CompoundTag nbt, HolderLookup.Provider provider,
+    private void minezeroSbp$onSaveReturn(CompoundTag nbt,
                                           CallbackInfoReturnable<CompoundTag> cir) {
         if (ModList.get().isLoaded("sophisticatedbackpacks")) {
             SBPBackpackHelper.writeSnapshot(cir.getReturnValue(), SBP_SNAPSHOT_KEY);
@@ -62,7 +61,7 @@ public abstract class CheckpointDataMixin {
      * RETURN 注入允许我们在构建完 CheckpointData 后读取额外的快照数据。
      */
     @Inject(method = "load", at = @At("RETURN"), remap = false)
-    private static void minezeroSbp$onLoadReturn(CompoundTag nbt, HolderLookup.Provider lookupProvider,
+    private static void minezeroSbp$onLoadReturn(CompoundTag nbt,
                                                   CallbackInfoReturnable<CheckpointData> cir) {
         if (ModList.get().isLoaded("sophisticatedbackpacks")) {
             SBPBackpackHelper.readSnapshot(nbt, SBP_SNAPSHOT_KEY);

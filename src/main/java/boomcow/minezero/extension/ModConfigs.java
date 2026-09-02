@@ -1,42 +1,42 @@
 package boomcow.minezero.extension;
 
-import net.neoforged.neoforge.common.ModConfigSpec;
+import net.minecraftforge.common.ForgeConfigSpec;
 
 /**
  * MineZero Extension 配置文件。
  * <p>安全条件触发检查点参数：概率门 + 每条件启用开关。</p>
  */
 public class ModConfigs {
-    public static final ModConfigSpec COMMON_CONFIG_SPEC;
+    public static final ForgeConfigSpec COMMON_CONFIG_SPEC;
     static final SafeCheckpointConfig SAFE_CHECKPOINT;
 
     static {
-        var pair = new ModConfigSpec.Builder().configure(SafeCheckpointConfig::new);
+        var pair = new ForgeConfigSpec.Builder().configure(SafeCheckpointConfig::new);
         COMMON_CONFIG_SPEC = pair.getRight();
         SAFE_CHECKPOINT = pair.getLeft();
     }
 
     public static class SafeCheckpointConfig {
-        public final ModConfigSpec.BooleanValue enabled;
-        public final ModConfigSpec.IntValue checkIntervalTicks;
-        public final ModConfigSpec.IntValue enemySearchRadius;
-        public final ModConfigSpec.BooleanValue globalDeathTrigger;
+        public final ForgeConfigSpec.BooleanValue enabled;
+        public final ForgeConfigSpec.IntValue checkIntervalTicks;
+        public final ForgeConfigSpec.IntValue enemySearchRadius;
+        public final ForgeConfigSpec.BooleanValue globalDeathTrigger;
 
-        public final ModConfigSpec.BooleanValue overworldEnabled;
-        public final ModConfigSpec.BooleanValue daytimeEnabled;
-        public final ModConfigSpec.BooleanValue healthFullEnabled;
-        public final ModConfigSpec.BooleanValue hungerFullEnabled;
-        public final ModConfigSpec.BooleanValue noNegativeEffectsEnabled;
-        public final ModConfigSpec.BooleanValue noHostileNearbyEnabled;
+        public final ForgeConfigSpec.BooleanValue overworldEnabled;
+        public final ForgeConfigSpec.BooleanValue daytimeEnabled;
+        public final ForgeConfigSpec.BooleanValue healthFullEnabled;
+        public final ForgeConfigSpec.BooleanValue hungerFullEnabled;
+        public final ForgeConfigSpec.BooleanValue noNegativeEffectsEnabled;
+        public final ForgeConfigSpec.BooleanValue noHostileNearbyEnabled;
 
-        public final ModConfigSpec.DoubleValue overworldChance;
-        public final ModConfigSpec.DoubleValue daytimeChance;
-        public final ModConfigSpec.DoubleValue healthFullChance;
-        public final ModConfigSpec.DoubleValue hungerFullChance;
-        public final ModConfigSpec.DoubleValue noNegativeEffectsChance;
-        public final ModConfigSpec.DoubleValue noHostileNearbyChance;
+        public final ForgeConfigSpec.DoubleValue overworldChance;
+        public final ForgeConfigSpec.DoubleValue daytimeChance;
+        public final ForgeConfigSpec.DoubleValue healthFullChance;
+        public final ForgeConfigSpec.DoubleValue hungerFullChance;
+        public final ForgeConfigSpec.DoubleValue noNegativeEffectsChance;
+        public final ForgeConfigSpec.DoubleValue noHostileNearbyChance;
 
-        SafeCheckpointConfig(ModConfigSpec.Builder builder) {
+        SafeCheckpointConfig(ForgeConfigSpec.Builder builder) {
             builder.comment("Safe checkpoint trigger settings")
                    .comment("Runtime toggle: /gamerule safeCheckpointEnabled true|false")
                    .push("safeCheckpoint");

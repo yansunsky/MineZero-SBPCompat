@@ -8,9 +8,9 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.ModList;
-import net.neoforged.neoforge.event.tick.ServerTickEvent;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
 import org.slf4j.Logger;
 
 import java.util.List;
@@ -27,7 +27,9 @@ public class SafeCheckpointTicker {
     public static boolean debugMode = false;
 
     @SubscribeEvent
-    public static void onServerTickPost(ServerTickEvent.Post event) {
+    public static void onServerTick(TickEvent.ServerTickEvent event) {
+        // 仅处理 END 相位（对应 NeoForge 的 ServerTickEvent.Post）
+        if (event.phase != TickEvent.Phase.END) return;
         ServerLevel level = event.getServer().overworld();
         if (level == null) return;
 
@@ -123,7 +125,7 @@ public class SafeCheckpointTicker {
 
     private static boolean hasNegativeEffect(ServerPlayer player) {
         for (MobEffectInstance effect : player.getActiveEffects()) {
-            if (!effect.getEffect().value().isBeneficial()) return true;
+            if (!effect.getEffect().isBeneficial()) return true;
         }
         return false;
     }

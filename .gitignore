@@ -20,3 +20,6 @@ Thumbs.db
 # Mod run dirs
 run/
 logs/
+
+# Dev plans (local only)
+docs/

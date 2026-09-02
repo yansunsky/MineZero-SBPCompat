@@ -10,10 +10,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
-import net.neoforged.bus.api.EventPriority;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
-import net.neoforged.neoforge.registries.DeferredHolder;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.registries.RegistryObject;
 
 /**
  * 全局死亡触发 — 任意玩家死亡都触发死亡回归。
@@ -34,7 +34,7 @@ public class GlobalDeathHandler {
         if (data.getAnchorPlayerUUID() != null && player.getUUID().equals(data.getAnchorPlayerUUID())) return;
 
         // 非锚玩家：有存档才触发回归
-        if (data.getPlayerData(player.getUUID(), player.serverLevel().registryAccess()) == null) return;
+        if (data.getPlayerData(player.getUUID()) == null) return;
 
         event.setCanceled(true);
         ServerPlayer sp = player;
@@ -56,7 +56,7 @@ public class GlobalDeathHandler {
     }
 
     private static void stopAndPlay(ServerPlayer player, ResourceLocation soundId,
-                                     DeferredHolder<SoundEvent, SoundEvent> holder) {
+                                     RegistryObject<SoundEvent> holder) {
         var stop = new ClientboundStopSoundPacket(soundId, SoundSource.PLAYERS);
         if (player.connection != null) {
             player.connection.send(stop);

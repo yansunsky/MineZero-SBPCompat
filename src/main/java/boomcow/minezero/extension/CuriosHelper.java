@@ -17,7 +17,7 @@ import java.util.UUID;
 /**
  * Curios 饰品栏快照辅助类。
  * <p>
- * Curios 的饰品栏物品存储在玩家的 {@code CurioInventory}（NeoForge DataAttachment）中，
+ * Curios 的饰品栏物品存储在玩家的 {@code ICuriosItemHandler}（Capability）中，
  * 不包含在玩家的常规背包数据中。MineZero 的回档机制可能不会正确处理这些饰品栏物品。
  * <p>
  * 本类通过在检查点保存时捕获 Curios 背包快照、恢复时写回，
@@ -78,8 +78,8 @@ public class CuriosHelper {
                         ItemStack s = stacks.getStackInSlot(i);
                         if (!s.isEmpty()) {
                             LOGGER.info("[MExt Curios DEBUG]     slot {}[{}]: {} x{} tags={}",
-                                    entry.getKey(), i, s.getHoverName().getString(),
-                                    s.getCount(), s.getComponents());
+                                    entry.getKey(), i,                                     s.getHoverName().getString(),
+                                    s.getCount(), s.getTag());
                         }
                     }
                 }

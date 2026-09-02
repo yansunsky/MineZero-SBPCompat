@@ -6,13 +6,14 @@ import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.GameRules;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.ModContainer;
-import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.RegisterCommandsEvent;
-import net.neoforged.neoforge.event.server.ServerStartedEvent;
+import net.minecraftforge.MinecraftForge;
+import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.server.ServerStartedEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.config.ModConfig;
 import org.slf4j.Logger;
 
 /**
@@ -22,17 +23,17 @@ import org.slf4j.Logger;
 public class MineZeroExtension {
     private static final Logger LOGGER = LogUtils.getLogger();
 
-    public MineZeroExtension(IEventBus modEventBus, ModContainer modContainer) {
+    public MineZeroExtension() {
         var dummy = ExtensionGameRules.SAFE_CHECKPOINT_ENABLED;
         var dummy2 = ExtensionGameRules.GLOBAL_DEATH_TRIGGER;
 
         LOGGER.info("[MineZeroExtension] Initializing...");
         LOGGER.info("[MineZeroExtension] Gamerule: safeCheckpointEnabled, globalDeathTrigger");
 
-        NeoForge.EVENT_BUS.register(SafeCheckpointTicker.class);
-        NeoForge.EVENT_BUS.register(GlobalDeathHandler.class);
-        NeoForge.EVENT_BUS.register(this);
-        modContainer.registerConfig(net.neoforged.fml.config.ModConfig.Type.COMMON, ModConfigs.COMMON_CONFIG_SPEC);
+        MinecraftForge.EVENT_BUS.register(SafeCheckpointTicker.class);
+        MinecraftForge.EVENT_BUS.register(GlobalDeathHandler.class);
+        MinecraftForge.EVENT_BUS.register(this);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ModConfigs.COMMON_CONFIG_SPEC);
     }
 
     @SubscribeEvent
