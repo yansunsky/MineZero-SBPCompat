@@ -20,3 +20,6 @@ Thumbs.db
 # Mod run dirs
 run/
 logs/
+
+# Local-only docs (per docs/实现分析.md: not checked in)
+docs/

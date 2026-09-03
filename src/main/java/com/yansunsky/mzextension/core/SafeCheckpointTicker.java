@@ -1,8 +1,10 @@
-package boomcow.minezero.extension;
+package com.yansunsky.mzextension.core;
 
 import boomcow.minezero.ModGameRules;
 import boomcow.minezero.checkpoint.CheckpointManager;
 import com.mojang.logging.LogUtils;
+import com.yansunsky.mzextension.compat.SBPBackpackHelper;
+import com.yansunsky.mzextension.config.ModConfigs;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;

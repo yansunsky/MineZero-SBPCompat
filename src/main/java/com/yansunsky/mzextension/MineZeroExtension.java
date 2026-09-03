@@ -1,7 +1,11 @@
-package boomcow.minezero.extension;
+package com.yansunsky.mzextension;
 
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.logging.LogUtils;
+import com.yansunsky.mzextension.config.ModConfigs;
+import com.yansunsky.mzextension.core.ExtensionGameRules;
+import com.yansunsky.mzextension.core.GlobalDeathHandler;
+import com.yansunsky.mzextension.core.SafeCheckpointTicker;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;

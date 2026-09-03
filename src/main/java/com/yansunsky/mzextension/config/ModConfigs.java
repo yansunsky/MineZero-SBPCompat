@@ -1,4 +1,4 @@
-package boomcow.minezero.extension;
+package com.yansunsky.mzextension.config;
 
 import net.neoforged.neoforge.common.ModConfigSpec;
 
@@ -8,7 +8,7 @@ import net.neoforged.neoforge.common.ModConfigSpec;
  */
 public class ModConfigs {
     public static final ModConfigSpec COMMON_CONFIG_SPEC;
-    static final SafeCheckpointConfig SAFE_CHECKPOINT;
+    public static final SafeCheckpointConfig SAFE_CHECKPOINT;
 
     static {
         var pair = new ModConfigSpec.Builder().configure(SafeCheckpointConfig::new);

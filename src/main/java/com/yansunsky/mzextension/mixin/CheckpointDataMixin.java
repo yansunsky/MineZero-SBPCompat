@@ -1,9 +1,9 @@
-package boomcow.minezero.extension.mixin;
+package com.yansunsky.mzextension.mixin;
 
 import boomcow.minezero.checkpoint.CheckpointData;
-import boomcow.minezero.extension.CuriosHelper;
-import boomcow.minezero.extension.PersistentDataHelper;
-import boomcow.minezero.extension.SBPBackpackHelper;
+import com.yansunsky.mzextension.compat.CuriosHelper;
+import com.yansunsky.mzextension.compat.PersistentDataHelper;
+import com.yansunsky.mzextension.compat.SBPBackpackHelper;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.neoforged.fml.ModList;

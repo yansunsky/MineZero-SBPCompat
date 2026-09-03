@@ -1,4 +1,4 @@
-package boomcow.minezero.extension;
+package com.yansunsky.mzextension.core;
 
 import boomcow.minezero.ConfigHandler;
 import boomcow.minezero.MineZero;

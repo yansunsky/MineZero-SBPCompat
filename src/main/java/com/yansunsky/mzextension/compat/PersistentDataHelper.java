@@ -1,4 +1,4 @@
-package boomcow.minezero.extension;
+package com.yansunsky.mzextension.compat;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;

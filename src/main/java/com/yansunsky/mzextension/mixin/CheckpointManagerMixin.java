@@ -1,10 +1,10 @@
-package boomcow.minezero.extension.mixin;
+package com.yansunsky.mzextension.mixin;
 
 import boomcow.minezero.checkpoint.CheckpointManager;
-import boomcow.minezero.extension.CuriosHelper;
-import boomcow.minezero.extension.PersistentDataHelper;
-import boomcow.minezero.extension.SBPBackpackHelper;
-import boomcow.minezero.extension.SafeCheckpointTicker;
+import com.yansunsky.mzextension.compat.CuriosHelper;
+import com.yansunsky.mzextension.compat.PersistentDataHelper;
+import com.yansunsky.mzextension.compat.SBPBackpackHelper;
+import com.yansunsky.mzextension.core.SafeCheckpointTicker;
 import com.mojang.logging.LogUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;

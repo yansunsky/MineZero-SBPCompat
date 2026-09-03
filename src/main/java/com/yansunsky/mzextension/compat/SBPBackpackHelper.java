@@ -1,4 +1,4 @@
-package boomcow.minezero.extension;
+package com.yansunsky.mzextension.compat;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.nbt.CompoundTag;

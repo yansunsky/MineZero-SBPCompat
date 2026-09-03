@@ -1,4 +1,4 @@
-package boomcow.minezero.extension;
+package com.yansunsky.mzextension.core;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.GameRules;
