@@ -28,6 +28,8 @@ public class ModConfigs {
         public final ModConfigSpec.BooleanValue hungerFullEnabled;
         public final ModConfigSpec.BooleanValue noNegativeEffectsEnabled;
         public final ModConfigSpec.BooleanValue noHostileNearbyEnabled;
+        /** 附近有存活的已驯服伙伴（狗/猫/鹦鹉等）时，给概率门一次"掷骰失败豁免" */
+        public final ModConfigSpec.BooleanValue companionBonusEnabled;
 
         public final ModConfigSpec.DoubleValue overworldChance;
         public final ModConfigSpec.DoubleValue daytimeChance;
@@ -57,13 +59,21 @@ public class ModConfigs {
                     .comment("Global death trigger: any player death triggers Return by Death. Default: false")
                     .define("globalDeathTrigger", false);
 
+            companionBonusEnabled = builder
+                    .comment("When enabled, if a tamed companion (dog/cat/parrot etc.) is alive within enemySearchRadius,")
+                    .comment("one failed probability gate per check is forgiven (boosts checkpoint frequency).")
+                    .comment("Does NOT bypass hard safety conditions. Default: true")
+                    .define("companionBonusEnabled", true);
+
             builder.comment("Enable/disable each condition (true = check this condition)")
                    .push("conditions");
 
             overworldEnabled = builder.define("overworld", true);
             daytimeEnabled = builder.define("daytime", true);
             healthFullEnabled = builder.define("healthFull", true);
-            hungerFullEnabled = builder.define("hungerFull", true);
+            hungerFullEnabled = builder
+                    .comment("Hunger >= 15 (not full 20) required. Default: true")
+                    .define("hungerFull", true);
             noNegativeEffectsEnabled = builder.define("noNegativeEffects", true);
             noHostileNearbyEnabled = builder.define("noHostileNearby", true);
 
@@ -87,7 +97,7 @@ public class ModConfigs {
                     .defineInRange("healthFullChance", 0.75, 0.0, 1.0);
 
             hungerFullChance = builder
-                    .comment("Probability gate for hunger. Default: 0.55")
+                    .comment("Probability gate for hunger. Gate applies first; actual check is foodLevel > 15. Default: 0.55")
                     .defineInRange("hungerFullChance", 0.55, 0.0, 1.0);
 
             noNegativeEffectsChance = builder
