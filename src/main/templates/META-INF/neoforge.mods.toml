@@ -44,6 +44,13 @@ versionRange="[9.5,)"
 ordering="NONE"
 side="BOTH"
 
+
+[[dependencies.${mod_id}]]
+modId="lootr"
+type="optional"
+versionRange="[1.11,)"
+ordering="NONE"
+side="BOTH"
 # Mixin 配置 —— 必须声明，否则 FML 不会加载 mixins.json
 [[mixins]]
 config = "${mod_id}.mixins.json"

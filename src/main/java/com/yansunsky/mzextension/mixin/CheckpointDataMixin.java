@@ -2,6 +2,7 @@ package com.yansunsky.mzextension.mixin;
 
 import boomcow.minezero.checkpoint.CheckpointData;
 import com.yansunsky.mzextension.compat.CuriosHelper;
+import com.yansunsky.mzextension.compat.LootContainerHelper;
 import com.yansunsky.mzextension.compat.PersistentDataHelper;
 import com.yansunsky.mzextension.compat.SBPBackpackHelper;
 import net.minecraft.core.HolderLookup;
@@ -53,6 +54,8 @@ public abstract class CheckpointDataMixin {
             CuriosHelper.writeSnapshot(cir.getReturnValue(), CURIOS_SNAPSHOT_KEY);
         }
         PersistentDataHelper.writeSnapshot(cir.getReturnValue());
+        // 战利品容器追踪持久化（只引用 MC 类，无需可选依赖守卫）
+        LootContainerHelper.writeSnapshot(cir.getReturnValue());
     }
 
     /**
@@ -71,5 +74,6 @@ public abstract class CheckpointDataMixin {
             CuriosHelper.readSnapshot(nbt, CURIOS_SNAPSHOT_KEY);
         }
         PersistentDataHelper.readSnapshot(nbt);
+        LootContainerHelper.readSnapshot(nbt);
     }
 }

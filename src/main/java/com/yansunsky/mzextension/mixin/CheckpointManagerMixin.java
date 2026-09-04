@@ -2,6 +2,7 @@ package com.yansunsky.mzextension.mixin;
 
 import boomcow.minezero.checkpoint.CheckpointManager;
 import com.yansunsky.mzextension.compat.CuriosHelper;
+import com.yansunsky.mzextension.compat.LootContainerHelper;
 import com.yansunsky.mzextension.compat.PersistentDataHelper;
 import com.yansunsky.mzextension.compat.SBPBackpackHelper;
 import com.yansunsky.mzextension.core.SafeCheckpointTicker;
@@ -26,6 +27,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  *   <li>{@code restoreCheckpoint(HEAD)} — 在 MineZero 开始恢复玩家背包之前，
  *       先将 BackpackStorage 回档到检查点状态，确保后续恢复的背包 ItemStack
  *       （及其 UUID 引用）指向正确的回档内容。</li>
+ *   <li>{@code restoreCheckpoint(RETURN)} — MineZero 全部恢复完成后再次写回
+ *       BackpackStorage（最终权威状态，幂等）。</li>
  * </ul>
  *
  * @see SBPBackpackHelper#captureSnapshot(ServerPlayer)
@@ -75,6 +78,8 @@ public abstract class CheckpointManagerMixin {
                 }
             }
         }
+        // 新检查点：清空上一轮"战利品容器"追踪（本轮 diff 从此刻开始记录）
+        LootContainerHelper.startNewCheckpoint();
     }
 
     /**
@@ -87,6 +92,8 @@ public abstract class CheckpointManagerMixin {
      *   <li>如果 BackpackStorage 内容不同步，恢复后的背包将显示错误内容</li>
      * </ol>
      * 因此 BackpackStorage 必须在第 2 步之前恢复到检查点状态。
+     * 该方法可安全重复调用（幂等）；RETURN 阶段还会再执行一次最终写回，
+     * 以覆盖 MineZero 在中间步骤清理实体时 SBP 对怪物背包 UUID 的二次删除。
      */
     @Inject(method = "restoreCheckpoint", at = @At("HEAD"), remap = false)
     private static void minezeroSbp$onRestoreCheckpointHead(ServerPlayer anchorPlayer, CallbackInfo ci) {
@@ -105,13 +112,31 @@ public abstract class CheckpointManagerMixin {
         }
     }
 
-    /** 在 restoreCheckpoint 完成后，应用所有玩家的 ForgeData 快照 */
+    /**
+     * 在 restoreCheckpoint 完成后做最终收尾：
+     * <ol>
+     *   <li>合并所有玩家的 ForgeData 快照（MineZero 全部恢复完成后才做，避免被中间步骤覆盖）</li>
+     *   <li>再次写回 SBP BackpackStorage 快照（最终权威状态）。MineZero 恢复过程中会
+     *       discard 全部非玩家实体，若实体是 SBP 自带背包的怪物，SBP 的
+     *       EntityLeaveLevelEvent → removeBackpackUuid 会把对应 UUID 内容删掉；
+     *       因此必须在实体清理与重生都完成后的 RETURN 再覆盖一次，BackpackStorage
+     *       的最终状态才与检查点时刻一致。</li>
+     * </ol>
+     */
     @Inject(method = "restoreCheckpoint", at = @At("RETURN"), remap = false)
     private static void minezeroForge$onRestoreCheckpointReturn(ServerPlayer anchorPlayer, CallbackInfo ci) {
         if (anchorPlayer != null && anchorPlayer.getServer() != null) {
             for (ServerPlayer p : anchorPlayer.getServer().getPlayerList().getPlayers()) {
                 PersistentDataHelper.apply(p);
             }
+        }
+        // SBP 最终写回（幂等；与 ForgeData 互不影响）
+        if (ModList.get().isLoaded("sophisticatedbackpacks")) {
+            SBPBackpackHelper.applySnapshot(anchorPlayer);
+        }
+        // 战利品容器重置：把检查点后首次打开过的奖励箱重置为"未解包"，下次打开按原 seed 重新生成
+        if (anchorPlayer != null && anchorPlayer.getServer() != null) {
+            LootContainerHelper.resetAll(anchorPlayer.getServer());
         }
     }
 }

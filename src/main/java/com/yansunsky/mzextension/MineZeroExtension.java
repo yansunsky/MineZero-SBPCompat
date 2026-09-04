@@ -2,9 +2,11 @@ package com.yansunsky.mzextension;
 
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.logging.LogUtils;
+import com.yansunsky.mzextension.compat.LootContainerHelper;
 import com.yansunsky.mzextension.config.ModConfigs;
 import com.yansunsky.mzextension.core.ExtensionGameRules;
 import com.yansunsky.mzextension.core.GlobalDeathHandler;
+import com.yansunsky.mzextension.core.NewPlayerLoginDelay;
 import com.yansunsky.mzextension.core.SafeCheckpointTicker;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
@@ -35,6 +37,8 @@ public class MineZeroExtension {
 
         NeoForge.EVENT_BUS.register(SafeCheckpointTicker.class);
         NeoForge.EVENT_BUS.register(GlobalDeathHandler.class);
+        NeoForge.EVENT_BUS.register(LootContainerHelper.class);
+        NeoForge.EVENT_BUS.register(NewPlayerLoginDelay.class);
         NeoForge.EVENT_BUS.register(this);
         modContainer.registerConfig(net.neoforged.fml.config.ModConfig.Type.COMMON, ModConfigs.COMMON_CONFIG_SPEC);
     }
