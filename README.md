@@ -4,7 +4,7 @@
 [![Minecraft](https://img.shields.io/badge/Minecraft-1.21.1-green.svg)](https://www.minecraft.net/)
 [![NeoForge](https://img.shields.io/badge/NeoForge-21.1.172-orange.svg)](https://neoforged.net/)
 
-MineZero 拓展附属模组。
+MineZero 拓展附属模组。这是一个完全由DeepSeekV4生成的项目，除非万不得已我不打算自己检阅代码。这只是一项实验。
 
 ## Features
 
